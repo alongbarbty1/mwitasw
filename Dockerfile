@@ -2,12 +2,31 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY requirements.txt .
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    libmagic1 \
+    && rm -rf /var/lib/apt/lists/*
 
+# Copy requirements first for better caching
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY bot.py .
+# Copy application files
+COPY app.py .
+COPY templates/ ./templates/
+COPY uploads/ ./uploads/
 
-EXPOSE 10000
+# Create necessary directories
+RUN mkdir -p uploads
 
-CMD ["python", "bot.py"]
+# Expose port
+EXPOSE 5000
+
+# Environment variables
+ENV PYTHONUNBUFFERED=1
+ENV FLASK_APP=app.py
+
+# Run the application
+CMD ["python", "app.py"]
