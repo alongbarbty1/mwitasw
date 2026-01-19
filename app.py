@@ -13,7 +13,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Configuration - use environment variable for API key
-OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "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")
+OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "🔐🔐🔐🔐🔐")
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 # Create uploads directory
